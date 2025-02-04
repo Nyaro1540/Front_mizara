@@ -115,9 +115,10 @@ class _LoginPageState extends State<LoginPage> {
                     Expanded(
                       child: SocialButton(
                         text: 'Google',
-                        iconPath: 'assets/icons/google.png',
+                        iconPath: 'assets/icons/Ellipse google.svg',
                         onPressed: () {
                           // Handle Google login
+                          _handleGoogleSignIn();
                         },
                       ),
                     ),
@@ -125,9 +126,10 @@ class _LoginPageState extends State<LoginPage> {
                     Expanded(
                       child: SocialButton(
                         text: 'Facebook',
-                        iconPath: 'assets/icons/facebook.png',
+                        iconPath: 'assets/icons/icons8-facebook-nouveau 1.svg',
                         onPressed: () {
                           // Handle Facebook login
+                          _handleFacebookSignIn();
                         },
                       ),
                     ),
@@ -160,5 +162,13 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void _handleGoogleSignIn() {
+    // Handle Google login
+  }
+
+  void _handleFacebookSignIn() {
+    // Handle Facebook login
   }
 }

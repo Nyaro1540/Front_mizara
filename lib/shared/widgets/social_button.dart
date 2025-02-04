@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SocialButton extends StatelessWidget {
   final String text;
@@ -14,20 +15,10 @@ class SocialButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
+    return ElevatedButton.icon(
       onPressed: onPressed,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            iconPath,
-            height: 24,
-            width: 24,
-          ),
-          const SizedBox(width: 12),
-          Text(text),
-        ],
-      ),
+      icon: SvgPicture.asset(iconPath, height: 24.0),
+      label: Text(text),
     );
   }
 }
