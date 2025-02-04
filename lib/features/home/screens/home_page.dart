@@ -3,23 +3,57 @@ import '../widgets/catergory_article.dart';
 import '../widgets/carte_riz.dart';
 import '../../../core/constants/app_text_styles.dart';
 
-class HomeScreen extends StatelessWidget {
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  HomeScreenState createState() => HomeScreenState();
+}
+
+class HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Page'),
+        backgroundColor: Colors.teal,
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Banner Image
             Container(
-              height: 200,
+              width: double.infinity,
+              height: 250, // Increased height for better fill
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mizara_partie_client-LqmICZMyHzhVzw2EF2f1hgTegJEIyH.png'),
-                  fit: BoxFit.cover,
+                  image: AssetImage('assets/images/Acceill.png'),
+                  fit: BoxFit.cover, // Ensures the image covers the area
                 ),
               ),
               child: Container(
@@ -39,7 +73,12 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'Get the best food delivered',
+                      'Votre emplacement: Antananarivo', // Location text
+                      style: AppTextStyles.body.copyWith(color: Colors.white),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Offrez-vous le meilleur riz.',
                       style: AppTextStyles.heading1.copyWith(color: Colors.white),
                     ),
                     const SizedBox(height: 8),
@@ -60,10 +99,10 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Categories', style: AppTextStyles.heading2),
+                      Text('Rechercher par catégorie', style: AppTextStyles.heading2),
                       TextButton(
                         onPressed: () {},
-                        child: const Text('See all'),
+                        child: const Text('Tout afficher'),
                       ),
                     ],
                   ),
@@ -127,6 +166,32 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: Colors.teal, // Couleur de l'élément sélectionné
+        unselectedItemColor: Colors.grey, // Couleur des icônes non sélectionnées
+        showSelectedLabels: true, // Affiche le texte sous l'icône sélectionnée
+        showUnselectedLabels: false, // Cache le texte des icônes non sélectionnées
+        items: const [
+          BottomNavigationBarItem(
+            icon: ImageIcon(AssetImage('assets/icons/your_icon.png')),
+            label: 'Accueil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_bag),
+            label: 'Boutique',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profil',
+          ),
+        ],
       ),
     );
   }

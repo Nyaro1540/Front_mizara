@@ -21,7 +21,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       'description':
           'Tous les meilleurs collecteurs de riz avec leurs produits de qualité vous selectons le sont à votre disposition pour un repas sain.',
     },
-    // Add more onboarding pages here
+    // Ajoutez plus de pages d'accueil ici
   ];
 
   @override
@@ -29,14 +29,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
+          // Image de fond
           Image.asset(
             'assets/images/home.png',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
           ),
-          // Overlay
+          // Superposition
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -49,7 +49,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               ),
             ),
           ),
-          // Content
+          // Contenu
           SafeArea(
             child: Column(
               children: [
@@ -114,7 +114,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           TextButton(
                             onPressed: () => Get.off(() => const LoginPage()),
                             child: const Text(
-                              'Skip',
+                              'Passer',
                               style: TextStyle(color: Colors.white70),
                             ),
                           ),
@@ -132,7 +132,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             child: Row(
                               children: const [
                                 Text(
-                                  'Next',
+                                  'Suivant',
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 SizedBox(width: 8),

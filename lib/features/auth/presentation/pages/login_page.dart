@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mizara/core/theme/app_theme.dart';
 import 'package:mizara/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:mizara/features/auth/presentation/pages/signup_page.dart';
+import 'package:mizara/features/home/screens/home_page.dart'; // Importing home_page.dart
 import 'package:mizara/shared/widgets/custom_text_field.dart';
 import 'package:mizara/shared/widgets/social_button.dart';
 
@@ -98,6 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Handle login
+                      Get.off(() => const HomeScreen()); // Redirect to home_page.dart after login
                     }
                   },
                   child: const Text('Se connecter'),
