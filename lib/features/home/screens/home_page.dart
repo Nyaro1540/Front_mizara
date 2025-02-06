@@ -39,8 +39,8 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
-        backgroundColor: Colors.teal,
+        //title: const Text('Home Page'),
+        //backgroundColor: Colors.teal,
       ),
       body: SingleChildScrollView(
         child: Column(
