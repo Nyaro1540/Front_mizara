@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../widgets/catergory_article.dart';
 import '../widgets/carte_riz.dart';
 import '../../../core/constants/app_text_styles.dart';
+import '../../profile/screens/profile_screen.dart'; // Import ProfileScreen
+import '../../search/screens/search_screens.dart'; // Import SearchScreen
 
 void main() {
   runApp(const MyApp());
@@ -33,14 +35,39 @@ class HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedIndex = index;
     });
+
+    if (index == 2) { // Ensure 'Profil' is at index 2
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ProfileScreen()),
+      );
+    }
+  }
+
+  void _navigateToSearch() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SearchScreen()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //title: const Text('Home Page'),
-        //backgroundColor: Colors.teal,
+        title: const Text(
+          'Mizara',
+          style: TextStyle(
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search, color: Colors.white),
+            onPressed: _navigateToSearch, // Navigate to SearchScreen
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -187,16 +214,12 @@ class HomeScreenState extends State<HomeScreen> {
         showUnselectedLabels: false, // Cache le texte des icônes non sélectionnées
         items: const [
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/icons/your_icon.png')),
+            icon: Icon(Icons.home),
             label: 'Accueil',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_bag),
             label: 'Boutique',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble),
-            label: 'Messages',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
