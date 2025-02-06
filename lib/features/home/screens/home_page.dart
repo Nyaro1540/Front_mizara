@@ -47,48 +47,59 @@ class HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Banner Image
-            Container(
-              width: double.infinity,
-              height: 250, // Increased height for better fill
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/Acceill.png'),
-                  fit: BoxFit.cover, // Ensures the image covers the area
-                ),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.black.withOpacity(0.4),
-                      Colors.black.withOpacity(0.4),
-                    ],
+            Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 250, // Increased height for better fill
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/Acceill.png'),
+                      fit: BoxFit.cover, // Ensures the image covers the area
+                    ),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withOpacity(0.4),
+                          Colors.black.withOpacity(0.4),
+                        ],
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const SizedBox(height: 32),
+                        Text(
+                          'Offrez-vous le meilleur riz.',
+                          style: AppTextStyles.heading1.copyWith(color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Votre emplacement: Antananarivo', // Location text
-                      style: AppTextStyles.body.copyWith(color: Colors.white),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Offrez-vous le meilleur riz.',
-                      style: AppTextStyles.heading1.copyWith(color: Colors.white),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Order your favorite meals right to your doorstep',
-                      style: AppTextStyles.body.copyWith(color: Colors.white),
-                    ),
-                  ],
+                Positioned(
+                  left: 255,
+                  top: 58.5,
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
+                Positioned(
+                  left: 208,
+                  top: 169,
+                  child: Text(
+                    'Votre emplacement',
+                    style: AppTextStyles.body.copyWith(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
 
             // Categories
@@ -137,7 +148,7 @@ class HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Featured Items', style: AppTextStyles.heading2),
+                 //Text('Featured Items', style: AppTextStyles.heading2),
                   const SizedBox(height: 16),
                   GridView.count(
                     shrinkWrap: true,
