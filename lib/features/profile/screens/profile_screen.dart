@@ -5,8 +5,22 @@ import '../../../core/constants/app_text_styles.dart';
 import '../../profile/screens/personal_date_screen.dart';
 import '../../profile/screens/profil_setting.dart'; // Import PersonalDateScreen
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  ProfileScreenState createState() => ProfileScreenState();
+}
+
+class ProfileScreenState extends State<ProfileScreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+  // const ProfileScreen({super.key}); // This line is not needed and should be removed
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +96,28 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: Colors.teal, // Couleur de l'élément sélectionné
+        unselectedItemColor: Colors.grey, // Couleur des icônes non sélectionnées
+        showSelectedLabels: true, // Affiche le texte sous l'icône sélectionnée
+        showUnselectedLabels: false, // Cache le texte des icônes non sélectionnées
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Accueil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_bag),
+            label: 'commandes',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profil',
+          ),
+        ],
       ),
     );
   }

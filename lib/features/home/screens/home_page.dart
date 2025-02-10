@@ -4,6 +4,7 @@ import '../widgets/carte_riz.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../profile/screens/profile_screen.dart'; // Import ProfileScreen
 import '../../search/screens/search_screens.dart'; // Import SearchScreen
+import '../../commande/commande.dart'; // Import CartPage
 
 void main() {
   runApp(const MyApp());
@@ -40,6 +41,11 @@ class HomeScreenState extends State<HomeScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const ProfileScreen()),
+      );
+    } else if (index == 1) { // Ensure 'commandes' is at index 1
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const CartPage()),
       );
     }
   }
@@ -219,7 +225,7 @@ class HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_bag),
-            label: 'Boutique',
+            label: 'commandes',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
