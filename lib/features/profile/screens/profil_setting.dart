@@ -55,7 +55,7 @@ class _SettingsContentState extends State<SettingsContent> {
           ),
         ),
         const SizedBox(height: 16),
-        
+
         // Push Notifications
         SwitchListTile(
           contentPadding: EdgeInsets.zero,
@@ -71,7 +71,7 @@ class _SettingsContentState extends State<SettingsContent> {
           activeColor: const Color(0xFFfe8c00),
           inactiveTrackColor: const Color(0xFFdfe0f3),
         ),
-        
+
         // Location
         SwitchListTile(
           contentPadding: EdgeInsets.zero,
@@ -87,7 +87,7 @@ class _SettingsContentState extends State<SettingsContent> {
           activeColor: const Color(0xFFfe8c00),
           inactiveTrackColor: const Color(0xFFdfe0f3),
         ),
-        
+
         // Language
         ListTile(
           contentPadding: EdgeInsets.zero,
@@ -118,9 +118,9 @@ class _SettingsContentState extends State<SettingsContent> {
           ),
           onTap: () {},
         ),
-        
+
         const SizedBox(height: 32),
-        
+
         // OTHER Section
         const Text(
           'OTHER',
@@ -131,7 +131,7 @@ class _SettingsContentState extends State<SettingsContent> {
           ),
         ),
         const SizedBox(height: 16),
-        
+
         // About Ticketis
         ListTile(
           contentPadding: EdgeInsets.zero,
@@ -149,7 +149,7 @@ class _SettingsContentState extends State<SettingsContent> {
           ),
           onTap: () {},
         ),
-        
+
         // Privacy Policy
         ListTile(
           contentPadding: EdgeInsets.zero,
@@ -167,7 +167,7 @@ class _SettingsContentState extends State<SettingsContent> {
           ),
           onTap: () {},
         ),
-        
+
         // Terms and Conditions
         ListTile(
           contentPadding: EdgeInsets.zero,
