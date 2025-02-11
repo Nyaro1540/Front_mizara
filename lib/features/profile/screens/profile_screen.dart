@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart'; // Import Get package
 import '../widgets/profile_items_menu.dart';
 import '../../../core/constants/app_text_styles.dart';
+import '../../profile/screens/personal_date_screen.dart';
+import '../../profile/screens/profil_setting.dart'; // Import PersonalDateScreen
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -36,21 +39,30 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 32),
 
               // Menu Items
-              const ProfileMenuItem(
+              ProfileMenuItem(
                 icon: Icons.person_outline,
                 title: 'Personal Data',
+                onTap: () => Get.to(() => const PersonalDateScreen()), // Navigate to PersonalDateScreen
               ),
-              const ProfileMenuItem(
+              ProfileMenuItem(
                 icon: Icons.settings_outlined,
                 title: 'Settings',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SettingsScreen())
+                  );
+                }, // Placeholder function
               ),
-              const ProfileMenuItem(
+              ProfileMenuItem(
                 icon: Icons.bookmark_outline,
                 title: 'Saved Items',
+                onTap: () {}, // Placeholder function
               ),
-              const ProfileMenuItem(
+              ProfileMenuItem(
                 icon: Icons.help_outline,
                 title: 'Help Center',
+                onTap: () {}, // Placeholder function
               ),
 
               const SizedBox(height: 32),

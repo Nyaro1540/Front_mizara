@@ -1,30 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mizara/core/theme/app_theme.dart';
-import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
 import 'package:mizara/shared/widgets/custom_text_field.dart';
+
+class ResetPasswordSuccessPage extends StatelessWidget {
+  const ResetPasswordSuccessPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Success'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.check_circle, color: Colors.green, size: 100),
+            SizedBox(height: 20),
+            Text('Your password has been reset successfully!',
+                style: TextStyle(fontSize: 18)),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
 
   @override
   State<ResetPasswordPage> createState() => _ResetPasswordPageState();
-}import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...import 'package:mizara/features/auth/presentation/pages/reset_password_success_page.dart';
-// ...existing code...
+}
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final _formKey = GlobalKey<FormState>();
