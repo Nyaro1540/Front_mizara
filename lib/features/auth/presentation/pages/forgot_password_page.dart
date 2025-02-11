@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:mizara/core/theme/app_theme.dart';
 import 'package:mizara/features/auth/presentation/pages/verify_otp_page.dart';
 import 'package:mizara/shared/widgets/custom_text_field.dart';
@@ -14,6 +16,24 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+
+  Future<void> _resetPassword() async {
+    final email = _emailController.text;
+    final url = Uri.parse('http://localhost:8000/password-reset-request/');
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'email': email}),
+    );
+
+    if (response.statusCode == 200) {
+      Get.to(() => VerifyOTPPage(email: email));
+    } else {
+      final error = json.decode(response.body)['error'];
+      Get.snackbar('Erreur', error, snackPosition: SnackPosition.BOTTOM);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +83,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Get.to(() => VerifyOTPPage(email: _emailController.text));
+                      _resetPassword();
                     }
                   },
                   child: const Text('Continuer'),
