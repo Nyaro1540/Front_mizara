@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _emailOrPhoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
@@ -42,16 +42,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 32),
                 CustomTextField(
-                  label: 'Adresse email',
-                  hint: 'Entrez votre e-mail',
-                  controller: _emailController,
+                  label: 'Email ou Numéro de téléphone',
+                  hint: 'Entrez votre e-mail ou numéro de téléphone',
+                  controller: _emailOrPhoneController,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer votre email';
+                      return 'Veuillez entrer votre email ou numéro de téléphone';
                     }
-                    if (!GetUtils.isEmail(value)) {
-                      return 'Veuillez entrer un email valide';
+                    if (!GetUtils.isEmail(value) && !GetUtils.isPhoneNumber(value)) {
+                      return 'Veuillez entrer un email ou numéro de téléphone valide';
                     }
                     return null;
                   },

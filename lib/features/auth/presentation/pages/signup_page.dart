@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mizara/core/theme/app_theme.dart';
@@ -16,8 +18,41 @@ class _SignupPageState extends State<SignupPage> {
   final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  final _nomCompletController = TextEditingController();
+  final _prenomController = TextEditingController();
+  final _numeroTelephoneController = TextEditingController();
+  final _lieuHabitationController = TextEditingController();
   bool _obscurePassword = true;
   bool _acceptTerms = false;
+
+  Future<void> _signup() async {
+    if (_formKey.currentState!.validate() && _acceptTerms) {
+      final response = await http.post(
+        Uri.parse('http://votre-backend-url/api/signup/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'nom_complet': _nomCompletController.text,
+          'prenom': _prenomController.text,
+          'numero_telephone': _numeroTelephoneController.text,
+          'email': _emailController.text,
+          'lieu_habitation': _lieuHabitationController.text,
+          'username': _usernameController.text,
+          'password': _passwordController.text,
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        // Inscription réussie
+        Get.snackbar('Succès', 'Inscription réussie');
+      } else {
+        // Erreur lors de l'inscription
+        Get.snackbar('Erreur', 'Erreur lors de l\'inscription');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +84,43 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 const SizedBox(height: 32),
                 CustomTextField(
+                  label: 'Nom complet',
+                  hint: 'Entrez votre nom complet',
+                  controller: _nomCompletController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer votre nom complet';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                CustomTextField(
+                  label: 'Prénom',
+                  hint: 'Entrez votre prénom',
+                  controller: _prenomController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer votre prénom';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                CustomTextField(
+                  label: 'Numéro de téléphone',
+                  hint: 'Entrez votre numéro de téléphone',
+                  controller: _numeroTelephoneController,
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer votre numéro de téléphone';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                CustomTextField(
                   label: 'Adresse email',
                   hint: 'Entrez votre e-mail',
                   controller: _emailController,
@@ -59,6 +131,18 @@ class _SignupPageState extends State<SignupPage> {
                     }
                     if (!GetUtils.isEmail(value)) {
                       return 'Veuillez entrer un email valide';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                CustomTextField(
+                  label: 'Lieu d\'habitation',
+                  hint: 'Entrez votre lieu d\'habitation',
+                  controller: _lieuHabitationController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer votre lieu d\'habitation';
                     }
                     return null;
                   },
@@ -87,6 +171,33 @@ class _SignupPageState extends State<SignupPage> {
                     }
                     if (value.length < 8) {
                       return 'Le mot de passe doit contenir au moins 8 caractères';
+                    }
+                    return null;
+                  },
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      color: AppTheme.mutedTextColor,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(height: 24),
+                CustomTextField(
+                  label: 'Confirmez le mot de passe',
+                  hint: 'Entrez à nouveau votre mot de passe',
+                  controller: _confirmPasswordController,
+                  obscureText: _obscurePassword,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez confirmer votre mot de passe';
+                    }
+                    if (value != _passwordController.text) {
+                      return 'Les mots de passe ne correspondent pas';
                     }
                     return null;
                   },
@@ -143,11 +254,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate() && _acceptTerms) {
-                      // Handle signup
-                    }
-                  },
+                  onPressed: _signup,
                   child: const Text('S\'inscrire'),
                 ),
                 const SizedBox(height: 24),
