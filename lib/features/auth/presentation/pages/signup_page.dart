@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mizara/core/theme/app_theme.dart';
 import 'package:mizara/shared/widgets/custom_text_field.dart';
 import 'package:mizara/shared/widgets/social_button.dart';
@@ -29,7 +30,7 @@ class _SignupPageState extends State<SignupPage> {
   Future<void> _signup() async {
     if (_formKey.currentState!.validate() && _acceptTerms) {
       final response = await http.post(
-        Uri.parse('http://votre-backend-url/api/signup/'),
+        Uri.parse('${dotenv.env['BACKEND_URL']}/register/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -45,10 +46,9 @@ class _SignupPageState extends State<SignupPage> {
       );
 
       if (response.statusCode == 201) {
-        // Inscription réussie
         Get.snackbar('Succès', 'Inscription réussie');
+        Get.off(() => const LoginPage());
       } else {
-        // Erreur lors de l'inscription
         Get.snackbar('Erreur', 'Erreur lors de l\'inscription');
       }
     }
@@ -270,7 +270,7 @@ class _SignupPageState extends State<SignupPage> {
                     Expanded(
                       child: SocialButton(
                         text: 'Google',
-                        iconPath: 'assets/icons/google.png',
+                        iconPath: 'assets/icons/Ellipse google.svg',
                         onPressed: () {
                           // Handle Google signup
                         },
@@ -280,7 +280,7 @@ class _SignupPageState extends State<SignupPage> {
                     Expanded(
                       child: SocialButton(
                         text: 'Facebook',
-                        iconPath: 'assets/icons/facebook.png',
+                        iconPath: 'assets/icons/icons8-facebook-nouveau 1.svg',
                         onPressed: () {
                           // Handle Facebook signup
                         },

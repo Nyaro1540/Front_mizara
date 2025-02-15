@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mizara/core/theme/app_theme.dart';
 import 'package:mizara/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:mizara/features/auth/presentation/pages/signup_page.dart';
-import 'package:mizara/features/home/screens/home_page.dart'; // Importing home_page.dart
+import 'package:mizara/features/home/screens/home_page.dart';
 import 'package:mizara/shared/widgets/custom_text_field.dart';
 import 'package:mizara/shared/widgets/social_button.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,6 +22,26 @@ class _LoginPageState extends State<LoginPage> {
   final _emailOrPhoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+
+  Future<void> _login() async {
+    final emailOrPhone = _emailOrPhoneController.text;
+    final password = _passwordController.text;
+
+    final url = Uri.parse('${dotenv.env['BACKEND_URL']}/login/');
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'email_or_phone': emailOrPhone, 'password': password}),
+    );
+
+    if (response.statusCode == 200) {
+      Get.off(() => const HomeScreen());
+    } else {
+      final error = json.decode(response.body)['error'];
+      Get.snackbar('Erreur', error, snackPosition: SnackPosition.BOTTOM);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // Handle login
-                      Get.off(() => const HomeScreen()); // Redirect to home_page.dart after login
+                      _login();
                     }
                   },
                   child: const Text('Se connecter'),
@@ -119,7 +141,6 @@ class _LoginPageState extends State<LoginPage> {
                         text: 'Google',
                         iconPath: 'assets/icons/Ellipse google.svg',
                         onPressed: () {
-                          // Handle Google login
                           _handleGoogleSignIn();
                         },
                       ),
@@ -130,7 +151,6 @@ class _LoginPageState extends State<LoginPage> {
                         text: 'Facebook',
                         iconPath: 'assets/icons/icons8-facebook-nouveau 1.svg',
                         onPressed: () {
-                          // Handle Facebook login
                           _handleFacebookSignIn();
                         },
                       ),
