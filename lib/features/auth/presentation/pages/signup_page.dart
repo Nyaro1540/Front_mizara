@@ -30,7 +30,11 @@ class _SignupPageState extends State<SignupPage> {
   Future<void> _signup() async {
     if (_formKey.currentState!.validate() && _acceptTerms) {
       final response = await http.post(
+<<<<<<< HEAD
         Uri.parse('${dotenv.env['BACKEND_URL']}/register/'),
+=======
+        Uri.parse('http://127.0.0.1:8000/register/'),
+>>>>>>> 43e9562508fb59cc3a4dcbb2a176da0ac2b253c9
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -46,10 +50,41 @@ class _SignupPageState extends State<SignupPage> {
       );
 
       if (response.statusCode == 201) {
+<<<<<<< HEAD
         Get.snackbar('Succès', 'Inscription réussie');
         Get.off(() => const LoginPage());
+=======
+        // Inscription réussie - Redirection vers la page de connexion
+        Get.snackbar('Succès', 'Inscription réussie');
+        Get.offAll(() => const LoginPage());
+>>>>>>> 43e9562508fb59cc3a4dcbb2a176da0ac2b253c9
       } else {
         Get.snackbar('Erreur', 'Erreur lors de l\'inscription');
+      }
+    }
+  }
+
+  Future<void> _login() async {
+    if (_formKey.currentState!.validate()) {
+      final response = await http.post(
+        Uri.parse('http://127.0.0.1:8000/login/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': _emailController.text,
+          'password': _passwordController.text,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        // Stocker le token ici (à implémenter)
+        Get.snackbar('Succès', 'Connexion réussie');
+        // Rediriger vers la page d'accueil
+        Get.offAllNamed('/home');
+      } else {
+        Get.snackbar('Erreur', 'Email ou mot de passe incorrect');
       }
     }
   }
@@ -176,7 +211,9 @@ class _SignupPageState extends State<SignupPage> {
                   },
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: AppTheme.mutedTextColor,
                     ),
                     onPressed: () {
@@ -203,7 +240,9 @@ class _SignupPageState extends State<SignupPage> {
                   },
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: AppTheme.mutedTextColor,
                     ),
                     onPressed: () {
@@ -366,7 +405,9 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: AppTheme.mutedTextColor,
                     ),
                     onPressed: () {
@@ -379,9 +420,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Handle login
-                    }
+                    Get.to(() => const LoginPage());
                   },
                   child: const Text('Se connecter'),
                 ),
