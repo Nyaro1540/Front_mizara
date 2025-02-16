@@ -1,11 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:mizara/core/theme/app_theme.dart';
-import 'package:mizara/features/auth/presentation/pages/forgot_password_page.dart';
-import 'package:mizara/features/auth/presentation/pages/signup_page.dart';
-import 'package:mizara/features/home/screens/home_page.dart'; // Importing home_page.dart
 import 'package:mizara/shared/widgets/custom_text_field.dart';
-import 'package:mizara/shared/widgets/social_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,13 +14,46 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailOrPhoneController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+
+  Future<void> _login() async {
+    if (_formKey.currentState!.validate()) {
+      final response = await http.post(
+        Uri.parse('http://127.0.0.1:8000/login/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': _emailController.text,
+          'password': _passwordController.text,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        // Stocker le token ici (à implémenter)
+        Get.snackbar('Succès', 'Connexion réussie');
+        // Rediriger vers la page d'accueil
+        Get.offAllNamed('/home');
+      } else {
+        Get.snackbar('Erreur', 'Email ou mot de passe incorrect');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppTheme.textColor),
+          onPressed: () => Get.back(),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -32,26 +63,21 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Connectez-vous à votre compte.',
+                  'Se connecter',
                   style: AppTheme.headingStyle,
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Veuillez vous connecter à votre compte',
-                  style: AppTheme.subtitleStyle,
-                ),
-                const SizedBox(height: 32),
                 CustomTextField(
-                  label: 'Email ou Numéro de téléphone',
-                  hint: 'Entrez votre e-mail ou numéro de téléphone',
-                  controller: _emailOrPhoneController,
+                  label: 'Adresse email',
+                  hint: 'Entrez votre e-mail',
+                  controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Veuillez entrer votre email ou numéro de téléphone';
+                      return 'Veuillez entrer votre email';
                     }
-                    if (!GetUtils.isEmail(value) && !GetUtils.isPhoneNumber(value)) {
-                      return 'Veuillez entrer un email ou numéro de téléphone valide';
+                    if (!GetUtils.isEmail(value)) {
+                      return 'Veuillez entrer un email valide';
                     }
                     return null;
                   },
@@ -73,7 +99,9 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: AppTheme.mutedTextColor,
                     ),
                     onPressed: () {
@@ -83,80 +111,10 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                 ),
-                const SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () => Get.to(() => const ForgotPasswordPage()),
-                    child: const Text(
-                      'Mot de passe oublié ?',
-                      style: TextStyle(color: AppTheme.primaryColor),
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Handle login
-                      Get.off(() => const HomeScreen()); // Redirect to home_page.dart after login
-                    }
-                  },
+                  onPressed: _login,
                   child: const Text('Se connecter'),
-                ),
-                const SizedBox(height: 24),
-                const Center(
-                  child: Text(
-                    'Ou connectez-vous avec',
-                    style: AppTheme.subtitleStyle,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SocialButton(
-                        text: 'Google',
-                        iconPath: 'assets/icons/Ellipse google.svg',
-                        onPressed: () {
-                          // Handle Google login
-                          _handleGoogleSignIn();
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: SocialButton(
-                        text: 'Facebook',
-                        iconPath: 'assets/icons/icons8-facebook-nouveau 1.svg',
-                        onPressed: () {
-                          // Handle Facebook login
-                          _handleFacebookSignIn();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                Center(
-                  child: TextButton(
-                    onPressed: () => Get.to(() => const SignupPage()),
-                    child: RichText(
-                      text: const TextSpan(
-                        text: 'Vous n\'avez pas de compte ? ',
-                        style: AppTheme.subtitleStyle,
-                        children: [
-                          TextSpan(
-                            text: 'Créer un compte',
-                            style: TextStyle(
-                              color: AppTheme.primaryColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                 ),
               ],
             ),
@@ -164,13 +122,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-  void _handleGoogleSignIn() {
-    // Handle Google login
-  }
-
-  void _handleFacebookSignIn() {
-    // Handle Facebook login
   }
 }

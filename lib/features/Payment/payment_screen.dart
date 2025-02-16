@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({Key? key}) : super(key: key);
+  const PaymentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,8 @@ class PaymentScreen extends StatelessWidget {
                 // App Bar
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                     child: Row(
                       children: [
                         GestureDetector(
@@ -29,7 +30,8 @@ class PaymentScreen extends StatelessWidget {
                               shape: BoxShape.circle,
                               color: Colors.grey.withOpacity(0.1),
                             ),
-                            child: const Icon(Icons.arrow_back_ios_new, size: 20),
+                            child:
+                                const Icon(Icons.arrow_back_ios_new, size: 20),
                           ),
                         ),
                         const Expanded(
